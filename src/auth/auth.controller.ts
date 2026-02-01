@@ -1,6 +1,7 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dtos/signup.dtos';
+import { loginDto } from './dtos/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -13,6 +14,9 @@ export class AuthController {
   }
 
   //TODO: POST login
-
+  @Get('login') //auth/login
+  async login(@Body() Credential: loginDto) {
+    return this.authService.login(Credential);
+  }
   //TODO: POST refresh toekn
 }
