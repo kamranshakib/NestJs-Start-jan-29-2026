@@ -8,7 +8,9 @@ export class AuthController {
 
   //TODO: POST sign up
   @Post('signup') //auth/signup
-  async signup(@Body() signUpDto: SignUpDto) {}
+  async signup(@Body() signUpDto: SignUpDto) {
+    return signUpDto;
+  }
 
   //TODO: POST login
 
