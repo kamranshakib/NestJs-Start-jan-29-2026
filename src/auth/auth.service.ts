@@ -10,8 +10,9 @@ export class AuthService {
   constructor(@InjectModel(User.name) private UserModel: Model<User>) {}
   async signUp(signUpDto: SignUpDto) {
     const { email, password, name } = signUpDto;
+
     //TODO: Cheak if email is in use
-    const emailInUse = await this.UserModel.findOne({ email: email });
+    const emailInUse = await this.UserModel.findOne({ email });
     if (emailInUse) {
       throw new BadRequestException('Email already in use');
     }
