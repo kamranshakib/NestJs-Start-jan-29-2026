@@ -9,10 +9,18 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { loginDto } from './dtos/login.dto';
+import { JwtService } from '@nestjs/jwt';
+import { RefreshToken } from './schema/refres-token.schema';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectModel(User.name) private UserModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private UserModel: Model<User>,
+    @InjectModel(RefreshToken.name)
+    private refreshTokenModel: Model<RefreshToken>,
+    private jwtService: JwtService,
+  ) {}
   async signUp(signUpDto: SignUpDto) {
     const { email, password, name } = signUpDto;
 
@@ -48,8 +56,33 @@ export class AuthService {
       throw new UnauthorizedException('Wrong credentials');
     }
     //3: generate jwt token
+    return this.generateToken(user._id);
+  }
+
+  async refreshToken(refreshToken: string) {
+    const token = await this.refreshTokenModel.findOneAndDelete({
+      token: refreshToken,
+      expiryDate: { $gte: new Date() },
+    });
+    if (!token) {
+      throw new UnauthorizedException('refresh token is invalid');
+    }
+    return this.generateToken(token.userId);
+  }
+
+  async generateToken(userId) {
+    const accessToken = this.jwtService.sign({ userId }, { expiresIn: '1h' });
+    const refreshToken = uuidv4();
+    await this.storeRefreshToken(refreshToken, userId);
     return {
-      message: 'success',
+      accessToken,
+      refreshToken,
     };
+  }
+
+  async storeRefreshToken(token: string, userId) {
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + 3);
+    await this.refreshTokenModel.create({ token, userId, expiryDate });
   }
 }
