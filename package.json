@@ -1,5 +1,5 @@
 {
-  "name": "nest-app",
+  "name": "app",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -22,10 +22,16 @@
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
-    "@nestjs/mapped-types": "*",
+    "@nestjs/mongoose": "^11.0.4",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/swagger": "^11.2.6",
+    "@types/mongoose": "^5.11.96",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3",
+    "mongoose": "^9.2.0",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
