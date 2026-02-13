@@ -12,11 +12,14 @@ export class BlogService {
   ) {}
 
   async findAll(queryParams: BlogQueryDtos) {
-    const page = queryParams.page ?? 1;
-    const limit = queryParams.limit ?? 10;
+    const { title, limit = 5, page = 1 } = queryParams;
 
+    const query: any = {};
+    if (title) {
+      query.title = { $regex: title, $options: 'i' };
+    }
     const blog = await this.blogModel
-      .find()
+      .find(query)
       .skip(page - 1)
       .limit(limit)
       .exec();

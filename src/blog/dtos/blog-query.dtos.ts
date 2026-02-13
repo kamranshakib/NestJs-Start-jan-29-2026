@@ -1,5 +1,11 @@
-import { IsOptional, IsPositive, IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsPositive, IsString } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+
+export enum Sort {
+  Title = 'title',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+}
 export class BlogQueryDtos {
   @IsPositive()
   @ApiPropertyOptional({})
@@ -15,4 +21,9 @@ export class BlogQueryDtos {
   @ApiPropertyOptional({})
   @IsOptional()
   title?: string;
+
+  @ApiPropertyOptional({})
+  @IsOptional()
+  @IsEnum(Sort)
+  sort?: Sort;
 }
