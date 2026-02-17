@@ -1,6 +1,6 @@
 import { Sort } from './dtos/generalQuery-dtos';
 
-export const sortFunction = (sort: Sort) => {
+export const sortFunction = (sort?: Sort) => {
   let sortObject: any = {};
 
   if (sort === Sort.Title) {

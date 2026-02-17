@@ -9,9 +9,9 @@ import {
   Query,
 } from '@nestjs/common';
 
-import { BlogDto } from './dtos/blog.dtos';
-import { BlogService } from './blog.service';
-import { BlogQueryDtos } from './dtos/blog-query.dtos';
+import { BlogDto } from '../dtos/blog.dtos';
+import { BlogService } from '../services/blog.service';
+import { BlogQueryDtos } from '../dtos/blog-query.dtos';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Blog')

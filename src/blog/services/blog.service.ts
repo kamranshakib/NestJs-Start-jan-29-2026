@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { BlogDto } from './dtos/blog.dtos';
+import { BlogDto } from '../dtos/blog.dtos';
 import { InjectModel } from '@nestjs/mongoose';
-import { Blog } from './schemas/Blog.schema';
+import { Blog } from '../schemas/Blog.schema';
 import { Model } from 'mongoose';
-import { BlogQueryDtos } from './dtos/blog-query.dtos';
+import { BlogQueryDtos } from '../dtos/blog-query.dtos';
 import { sortFunction } from 'src/utils/sort.utils';
 
 @Injectable()
@@ -33,7 +33,10 @@ export class BlogService {
   }
 
   async findOne(id: string) {
-    const blog = await this.blogModel.findOne({ _id: id }).exec();
+    const blog = await this.blogModel
+      .findOne({ _id: id })
+      .populate('catagory')
+      .exec();
     if (!blog) {
       throw new NotFoundException();
     } else {
@@ -47,10 +50,9 @@ export class BlogService {
     return newBlog;
   }
   async update(id: string, body: BlogDto) {
-    const blog = await this.findOne(id);
-    blog.title = body.title;
-    blog.content = body.content;
-    return await blog.save();
+    await this.blogModel.findByIdAndUpdate(id, body, {
+      new: true,
+    });
   }
 
   async delete(id: string) {
