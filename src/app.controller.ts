@@ -37,6 +37,6 @@ export class AppController {
     file: Express.Multer.File,
     @Body() body: UploadFileDto,
   ) {
-    return saveImage(file);
+    return saveImage(file, body);
   }
 }

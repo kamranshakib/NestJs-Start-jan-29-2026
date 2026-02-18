@@ -1,4 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsOptional, IsString } from 'class-validator';
 
 export class UploadFileDto {
   @ApiProperty({
@@ -7,4 +8,6 @@ export class UploadFileDto {
     required: true,
   })
   file: any;
+  @ApiPropertyOptional()
+  folder?: string;
 }
