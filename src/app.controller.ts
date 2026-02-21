@@ -2,11 +2,13 @@ import {
   Body,
   Controller,
   FileTypeValidator,
+  Get,
   MaxFileSizeValidator,
+  Param,
   ParseFilePipe,
   Post,
+  Res,
   UploadedFile,
-  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 import { AppService } from './app.service';
@@ -14,9 +16,15 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes } from '@nestjs/swagger';
 import { UploadFileDto } from './utils/dtos/uploadFile.dtos';
 import { saveImage } from './utils/savedFile';
+
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
+
+  @Get('')
+  getHello() {
+    return 'Hello World';
+  }
 
   @Post('upload-file')
   @ApiConsumes('multipart/form-data')
@@ -24,7 +32,7 @@ export class AppController {
   uploadFile(
     @UploadedFile(
       new ParseFilePipe({
-        validators: [
+        validators: [ 
           new MaxFileSizeValidator({
             maxSize: 5000000,
           }),

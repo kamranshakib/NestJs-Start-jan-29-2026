@@ -10,14 +10,14 @@ import { sortFunction } from 'src/utils/sort.utils';
 export class BlogService {
   constructor(
     @InjectModel(Blog.name) private readonly blogModel: Model<Blog>,
-  ) {}
+  ) { }
 
   async findAll(queryParams: BlogQueryDtos) {
     const { title, limit = 5, page = 1, sort } = queryParams;
 
     const query: any = {};
     if (title) {
-      query.title = { $regex: title, $options: 'i' };
+      query.title = { $regex: title, $options: 'i' }; // seek from database wihtout word prefect
     }
 
     const sortObject = sortFunction(sort);

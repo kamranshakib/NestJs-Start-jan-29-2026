@@ -7,5 +7,8 @@ export class BlogCatagory extends Document {
   title!: String;
   @Prop()
   content!: String;
+
+  @Prop()
+  image!: string;
 }
 export const blogCatagorySchema = SchemaFactory.createForClass(BlogCatagory);

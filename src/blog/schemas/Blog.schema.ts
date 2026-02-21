@@ -9,6 +9,8 @@ export class Blog extends Document {
   @Prop()
   content!: string;
 
+  @Prop()
+  image!: string;
   @Prop({
     type: Types.ObjectId,
     ref: BlogCatagory.name,

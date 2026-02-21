@@ -8,4 +8,8 @@ export class BlogCatagoryDto {
   @IsString()
   @IsNotEmpty()
   content!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  image!: string;
 }

@@ -12,7 +12,7 @@ export class BlogCatagoryService {
   constructor(
     @InjectModel(BlogCatagory.name)
     private readonly blogCatagoryModel: Model<BlogCatagory>,
-  ) {}
+  ) { }
 
   async findAll(queryParams: BlogCatagoryQueryDto) {
     const { title, limit = 5, page = 1, sort } = queryParams;
@@ -24,7 +24,7 @@ export class BlogCatagoryService {
 
     const sortObject = sortFunction(sort);
 
-    const blog = await this.blogCatagoryModel
+    const blogCatagory = await this.blogCatagoryModel
       .find(query)
       .skip(page - 1)
       .sort(sortObject)
@@ -32,7 +32,7 @@ export class BlogCatagoryService {
       .exec();
 
     const count = await this.blogCatagoryModel.countDocuments();
-    return { count, blog };
+    return { count, blogCatagory };
   }
 
   async findOne(id: string) {
