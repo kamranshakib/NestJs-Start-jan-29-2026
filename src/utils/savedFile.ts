@@ -7,10 +7,12 @@ export const saveImage = async (
   body: UploadFileDto,
 ) => {
   const destination = 'files/' + body.folder;
-  mkdirp.sync(destination);
+  mkdirp.sync(destination + "/main");
+  mkdirp.sync(destination + "/resized");
   const fileName =
-    Date.now() + '-' + file.originalname.replace(/[^a-zA-Z0-9.]/g, '-');
+    Date.now() + '-' + file.originalname.split(".")[0] + ".webp".replace(/[^a-zA-Z0-9.]/g, '-');
 
-  await sharp(file.buffer).toFile(destination + '/' + fileName);
+  await sharp(file.buffer).webp().toFile(destination + '/main/' + fileName);
+  await sharp(file.buffer).webp().resize({ width: body.width || 200, height: body.height || 200 }).toFile(destination + '/resized/' + fileName);
   return fileName;
 };

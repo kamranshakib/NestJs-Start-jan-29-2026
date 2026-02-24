@@ -9,4 +9,9 @@ export class UploadFileDto {
   file: any;
   @ApiPropertyOptional()
   folder?: string;
+
+  @ApiPropertyOptional()
+  height?: number;
+  @ApiPropertyOptional()
+  width?: number;
 }
