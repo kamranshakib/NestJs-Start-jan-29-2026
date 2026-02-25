@@ -14,11 +14,12 @@ import {
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes } from '@nestjs/swagger';
+import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { UploadFileDto } from './utils/dtos/uploadFile.dtos';
 import { saveImage, saveImages } from './utils/savedFile';
 import { UploadedFilesDto } from './utils/dtos/upload-files.dto';
 
+@ApiTags('Shared')
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -52,6 +53,8 @@ export class AppController {
 
   @Post('upload-files')
   @ApiConsumes('multipart/form-data')
+  // files interceptor  = for a lot of images or files
+  // file interceptor use for one image or one file
   @UseInterceptors(FilesInterceptor('files'))
   uploadFiles(
     @UploadedFiles() files: Array<Express.Multer.File>,
