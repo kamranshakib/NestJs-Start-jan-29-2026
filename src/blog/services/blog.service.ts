@@ -51,6 +51,11 @@ export class BlogService {
     return newBlog;
   }
   async update(id: string, body: BlogDto) {
+    const blog = await this.findOne(id);
+
+    if (blog.image !== body.image) {
+      await deleteImage(blog.image, 'blog');
+    }
     await this.blogModel.findByIdAndUpdate(id, body, {
       new: true,
     });

@@ -65,8 +65,8 @@ export class AppController {
     return saveImages(files, body);
   }
 
-  // @Delete()
-  // deleteFile(@Body() body: DeleteImageDto) {
-  //   return deleteImage(body.fileName, body.folder);
-  // }
+  @Delete('delete-image')
+  deleteFile(@Body() body: DeleteImageDto) {
+    return deleteImage(body.fileName, body.folder);
+  }
 }
