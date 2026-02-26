@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   FileTypeValidator,
   Get,
   MaxFileSizeValidator,
@@ -16,8 +17,9 @@ import { AppService } from './app.service';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { UploadFileDto } from './utils/dtos/uploadFile.dtos';
-import { saveImage, saveImages } from './utils/savedFile';
+import { deleteImage, saveImage, saveImages } from './utils/savedFile';
 import { UploadedFilesDto } from './utils/dtos/upload-files.dto';
+import { DeleteImageDto } from './utils/dtos/delete-files.dto';
 
 @ApiTags('Shared')
 @Controller()
@@ -62,4 +64,9 @@ export class AppController {
   ) {
     return saveImages(files, body);
   }
+
+  // @Delete()
+  // deleteFile(@Body() body: DeleteImageDto) {
+  //   return deleteImage(body.fileName, body.folder);
+  // }
 }

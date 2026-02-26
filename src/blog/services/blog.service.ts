@@ -5,12 +5,13 @@ import { Blog } from '../schemas/Blog.schema';
 import { Model } from 'mongoose';
 import { BlogQueryDtos } from '../dtos/blog-query.dtos';
 import { sortFunction } from 'src/utils/sort.utils';
+import { deleteImage } from 'src/utils/savedFile';
 
 @Injectable()
 export class BlogService {
   constructor(
     @InjectModel(Blog.name) private readonly blogModel: Model<Blog>,
-  ) { }
+  ) {}
 
   async findAll(queryParams: BlogQueryDtos) {
     const { title, limit = 5, page = 1, sort } = queryParams;
@@ -57,6 +58,9 @@ export class BlogService {
 
   async delete(id: string) {
     const blog = await this.findOne(id);
+
+    await deleteImage(blog.image, 'blog');
+
     await blog.deleteOne();
   }
 }
