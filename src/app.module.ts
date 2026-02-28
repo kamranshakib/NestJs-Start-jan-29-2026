@@ -5,6 +5,8 @@ import { BlogModule } from './blog/blog.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { APP_FILTER } from '@nestjs/core';
+import { LogFilter } from './shared/filter/log/log.filter';
 
 @Module({
   imports: [
@@ -15,6 +17,12 @@ import { join } from 'path';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: LogFilter,
+    },
+  ],
 })
-export class AppModule { }
+export class AppModule {}

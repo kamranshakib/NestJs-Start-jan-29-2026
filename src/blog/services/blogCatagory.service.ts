@@ -6,13 +6,14 @@ import { sortFunction } from 'src/utils/sort.utils';
 import { BlogCatagoryDto } from '../dtos/blog-catagory.dtos';
 
 import { BlogCatagoryQueryDto } from '../dtos/blogCatagory.Query.';
+import { deleteImage, saveImage } from 'src/utils/savedFile';
 
 @Injectable()
 export class BlogCatagoryService {
   constructor(
     @InjectModel(BlogCatagory.name)
     private readonly blogCatagoryModel: Model<BlogCatagory>,
-  ) { }
+  ) {}
 
   async findAll(queryParams: BlogCatagoryQueryDto) {
     const { title, limit = 5, page = 1, sort } = queryParams;
@@ -50,6 +51,10 @@ export class BlogCatagoryService {
     return newBlog;
   }
   async update(id: string, body: BlogCatagoryDto) {
+    const blogCatagor = await this.findOne(id);
+    if (blogCatagor.image !== body.image) {
+      await deleteImage(blogCatagor.image, 'blog-catagory');
+    }
     await this.blogCatagoryModel.findByIdAndUpdate(id, body, {
       new: true,
     });
@@ -57,6 +62,7 @@ export class BlogCatagoryService {
 
   async delete(id: string) {
     const blog = await this.findOne(id);
+    await deleteImage(blog.image, 'blog-catagory');
     await blog.deleteOne();
   }
 }
